@@ -17,10 +17,8 @@
 
 
         </p>
-
       </div>
     </div>
-
     <br />
     <div class="btns">
       <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark col-1 offset-3" id="btn">Edit </a>
@@ -28,25 +26,32 @@
         <button class="btn btn-dark  offset-5">Delete</button>
       </form>
     </div>
-    <DIV class="col-8 offset-3">
+    <DIV class="col-8 offset-3 mb-3">
       <hr>
       <h4>Leave a Review </h4>
-      <form action="/listings/<%=listing._id %>/reviews" method="POST">
+      <form action="/listings/<%= listing.id %>/reviews" method="POST" nonvalidate class="needs-validation">
         <div class="mb-3 mt-3">
           <label for="rating " class="form-label"> Rating</label>
           <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
         </div>
-        <div mb-3 mt-3>
+        <div class="mb-3 mt-3">
           <label for="comment" class="form-label">Comments</label>
-          <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required
-            class="need-valiodation"></textarea>
+          <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
           <div class="invalid-feedback">Please add some comment for Review</div>
 
         </div>
-        <br>
         <button class="btn btn-outline-dark">Submit</button>
       </form>
+      <hr>
+      <H4>All Reviews</H4>
+      <ul>
+        <% for(review of listing.reviews){%>
+
+          <li>
+            <%=review.comment%>,<%= review.rating%>
+          </li>
+          <%}%>
+      </ul>
+
     </DIV>
-
-
   </div>
