@@ -5,10 +5,15 @@
 // npm install mongoose
 // npm install express-validator
 // npm install nodemon
+//npm i passport
+//npm i  connect-flash
+//npm i express-session
+//npm install passport-local
+// npm install passport-local-mongoose
 
 
-// then for github profile also upload your code time to time 
-//pushing local repo 
+// then for github profile also upload your code time to time
+//pushing local repo
 //git init
 //git remote add origin <repository-url>
 //git status
@@ -19,7 +24,7 @@
 //git add .
 //git commit -m "Initial commit"
 //git push origin main
-
+//
 
 //git commit -am ("commit")
 //git push
@@ -36,13 +41,13 @@
 
 // then check you properly connect to your server
 // app.listen(3000,()=>{
-    //     console.log("Server is running on port 3000");
-    // });
+//     console.log("Server is running on port 3000");
+// });
 
 
 //then to MODEL: listing
 // like
-// title, description , image, price, location , country 
+// title, description , image, price, location , country
 
 
 //create route and page like new page show page edit page
