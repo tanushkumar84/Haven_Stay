@@ -3,7 +3,9 @@
   <div class="row mt-3">
     <div class="col-8 offset-2">
       <h2>Edit Listing</h2>
-      <form action="/listings/<%=listing._id%>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
+      <form action="/listings/<%= listing._id %>?_method=PUT" method="POST" novalidate class="needs-validation"
+        enctype="multipart/form-data">
+
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
 
@@ -13,15 +15,14 @@
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
 
-          <textarea name="listing[description]" class="form-control"  required>
+          <textarea name="listing[description]" class="form-control" required>
 <%=listing.description%>        
 </textarea>
         </div>
         <div class="mb-3">
           <label for="image" class="form-label">Image</label>
 
-          <input type="text" name="image" placeholder="enter image url" value="<%=listing.image.url%>"
-            class="form-control" required />
+          <input type="file" name="listing[image]" class="form-control" />
         </div>
         <div class="row">
           <div class="mb-3 col-md-4">
@@ -34,7 +35,7 @@
           <div class="mb-3 col-md-8">
             <label for="Country" class="form-label">Country</label>
 
-            <input type="text" placeholder="enter country" name="listing[country] " value="<%=listing.country%>"
+            <input type="text" name="listing[country]" placeholder="enter country" value="<%=listing.country%>"
               class="form-control" required />
           </div>
         </div>
@@ -42,7 +43,7 @@
         <div class="mb-3 col">
           <label for="location" class="form-label">Location</label>
 
-          <input type="text" placeholder="enter location" name="listing[location] " value="<%=listing.location%>"
+          <input type="text" name="listing[location]" placeholder="enter location"  value="<%=listing.location%>"
             class="form-control" required />
         </div>
         <br>

@@ -1,24 +1,27 @@
 const express = require("express");
 const router = express.Router();
 
-//index -users
-router.get("/", (req, res) => {
+// Post route
+
+// Index - users
+router.get("/", (req, res) => { 
     res.send("Hello Users");
 });
 
-//show route
+// Show route
 router.get("/:id", (req, res) => {
-    res.send("get show User ");
+    res.send("get show User");
 });
 
-//post - route
+// Post - route
 router.post("/", (req, res) => {
-    res.send("post User ");
+    res.send("post User");
 });
 
-//delete route
+// Delete route
 router.delete("/:id", (req, res) => {
-    res.send("delete User ");
+    res.send("delete User");
 });
+
 
 module.exports=router;
