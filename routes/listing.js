@@ -5,7 +5,8 @@ const Listing = require("../models/listing.js"); // Corrected path
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 const multer = require("multer");
-const uplaod = multer({ dest: 'uplaods/' })
+const {storage}=require("../cloudConfig.js");
+const uplaod = multer({storage});
 
 //index and create route 
 router.
