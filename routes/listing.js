@@ -5,27 +5,25 @@ const Listing = require("../models/listing.js"); // Corrected path
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const listingController = require("../controllers/listings.js")
 
-
-//index route
-router.get("/", wrapAsync(listingController.index));
+//index and create route 
+router.
+route("/")
+.get(wrapAsync(listingController.index))
+.post( wrapAsync(listingController. createListing));
 
 //NEW ROUTE
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
-//SHOW ROUTE
-router.get("/:id", wrapAsync(listingController.showListing));
 
-//CREATE ROUTE
-router.post("/", wrapAsync(listingController. createListing));
+//show, update and delete route
+router.route("/:id")
+.get( wrapAsync(listingController.showListing))
+.put( isLoggedIn, isOwner, validateListing, wrapAsync(listingController.updateListing))
+.delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing));
+
 
 //Edit ROUTE
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.editListing));
-
-//update route
-router.put("/:id", isLoggedIn, isOwner, validateListing, wrapAsync(listingController.updateListing));
-
-//delete route
-router.delete("/:id", isLoggedIn, isOwner, wrapAsync(listingController.destroyListing));
 
 
 module.exports = router;
