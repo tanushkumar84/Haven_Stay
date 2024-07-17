@@ -1,17 +1,18 @@
+mapboxgl.accessToken = mapToken;
 
-    mapboxgl.accessToken =mapToken;
-    const map = new mapboxgl.Map({
-        container: 'map',
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: 'mapbox://styles/mapbox/streets-v12',
-        center: [77.336778,28.689880],
-        zoom: 10
-    });
+const coordinatesArray = JSON.parse(coordinates);
 
-    // Add the control to the map.
-    map.addControl(
-        new MapboxGeocoder({
-            accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl
-        })
-    );
+const map = new mapboxgl.Map({
+    container: 'map', // container ID
+    style: 'mapbox://styles/mapbox/streets-v12', // style URL
+    center: coordinatesArray, // starting position [lng, lat]
+    zoom: 9 // starting zoom
+});
+
+console.log(coordinatesArray);
+
+const marker = new mapboxgl.Marker({ color: "red" })
+    .setLngLat(coordinatesArray)
+    .setPopup(new mapboxgl.Popup({ offset: 25 })
+        .setHTML(`<P>Exact Location provided after booking</p>`))
+    .addTo(map);
