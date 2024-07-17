@@ -7,28 +7,16 @@ const Listing = require("../models/listing.js"); // Corrected path
 const { validateReview, isLoggedIn ,isReviewAuthor} = require("../middleware.js");
 
 
+const reviewController=require("../controllers/reviews.js");
+const review =require('../models/review.js');
 
-  router.post("/",isLoggedIn, validateReview,wrapAsync(async (req, res) => {
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-  newReview.author=req.user._id;
-    listing.reviews.push(newReview);
-    await newReview.save();
-    await listing.save();
-    req.flash("success","Thanks  for  your  Review!");
-    res.redirect(`/listings/${listing._id}`);
-  }));
+//CREATE REVIEW
+  router.post("/",isLoggedIn, validateReview,wrapAsync(reviewController.createReview));
   
   
   
   //delete review route
   router.delete(
-    "/:reviewId",isLoggedIn,isReviewAuthor,wrapAsync(async(req,res)=>{
-      let{id,reviewId}=req.params;
-      await Listing.findByIdAndUpdate(id,{$pull:{review:reviewId}})
-      await Review.findByIdAndDelete(reviewId);
-      req.flash("success","Review Deleted !");
-      res.redirect(`/listings/${id}`);
-    }));
+    "/:reviewId",isLoggedIn,isReviewAuthor,wrapAsync(reviewController.destroyReview));
   
     module.exports=router;
