@@ -51,9 +51,9 @@ const sessionOptions = {
   },
 };
 
-app.get("/", (req, res) => {
-  res.send("Welcome to my API");
-});
+// app.get("/", (req, res) => {
+//   res.send("Welcome to my API");
+// });
 
 
 app.use(session(sessionOptions));
