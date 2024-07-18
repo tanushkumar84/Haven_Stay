@@ -1,25 +1,66 @@
 <% layout('/layouts/boilerplate') -%>
 
-<style>
-  #filters{
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .filter{
-    text-align: center;
+  <style>
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter {
+      text-align: center;
     margin-right: 2rem;
     margin-top: 1rem;
-    opacity: 0.7;
-  }
-  .filter:hover{
+    opacity: 0.9;
+    transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .filter:hover {
+      color: #fe424d;
     opacity: 1;
     cursor: pointer;
-
-    .filter p{
-      font-size: 0.8rem;
+    transform: scale(1.1);
     }
+    .filter:hover i {
+    color: #fe424d;
   }
-</style>
+  .filter:hover p {
+    color: black;
+    font-weight: bold;
+  }
+
+ 
+  .filter p {
+    font-size: 1rem;
+    transition: color 0.3s ease, font-weight 0.3s ease;
+  }
+    .tax-info {
+      display: none;
+    }
+
+    .tax-toggle {
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3rem;
+    padding: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease, border-color 0.3s ease, width 0.3s ease, height 0.3s ease, margin 0.3s ease;    width: 260px;
+  }
+
+  .tax-toggle:hover {
+    color: white;
+    font-weight: bolder;
+    background-color: #fe424d;
+    border-color: #fe424d;
+    width: 280px; /* Increase width on hover */
+    height: 3.5rem; 
+    margin-left: 1rem; /* Adjust margin on hover */
+    margin-right: 1rem; /* Adjust margin on hover */
+  }
+  </style>
   <div id="filters">
     <div class="filter">
       <div><i class="fa-solid fa-fire"></i></div>
@@ -53,33 +94,102 @@
       <div><i class="fa-solid fa-cow"></i></div>
       <p>Farms</p>
     </div>
+    <div class="filter">
+      <div><i class="fa-solid fa-igloo"></i></div>
+      <p>Domes</p>
+    </div>
+    <div class="filter">
+      <div><i class="fa-solid fa-ship"></i></div>
+      <p>Cruise</p>
+    </div>
     <div class="tax-toggle">
       <div class="form-check-reverse form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
         <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes </label>
+        
       </div>
-      
+
     </div>
   </div>
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
     <% for(let listing of allListings) { %>
       <a href="/listings/<%= listing._id %>" class="listing-link">
         <div class="card col listing-card">
-          <img
-            src="<%= listing.image.url %>"
-            class="card-img-top"
-            alt="listing_image"
-            style="height: 20rem"
-          />
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem" />
           <div class="card-img-overlay">
-            
+
           </div>
           <div class="card-body">
-            <p class="card-text"><b><%= listing.title %></b>
-            <br>
-           &#8377; <%=listing.price.toLocaleString("en-IN")%> /night</p>
+            <p class="card-text"><b>
+                <%= listing.title %>
+              </b>
+              <br>
+              &#8377; <%=listing.price.toLocaleString("en-IN")%> /night
+                <i class="tax-info">&nbsp; &nbsp; +18% GST</i>
+            </p>
           </div>
         </div>
-        </a>
-        <% } %>
+      </a>
+      <% } %>
   </div>
+  <script>
+    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    taxSwitch.addEventListener("click", () => {
+      let taxInfo = document.getElementsByClassName("tax-info");
+      for (info of taxInfo) {
+        if (info.style.display != "inline") {
+          info.style.display = "inline";
+        }
+        else {
+          info.style.display = "none";
+        }
+      }
+    })
+  </script>
+  <div id="listingsContainer" class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <% for(let listing of allListings) { %>
+      <a href="/listings/<%= listing._id %>" class="listing-link">
+        <div class="card col listing-card">
+          <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem" />
+          <div class="card-img-overlay"></div>
+          <div class="card-body">
+            <p class="card-text"><b><%= listing.title %></b><br>
+            &#8377; <%= listing.price.toLocaleString("en-IN") %> /night
+            <i class="tax-info">&nbsp; &nbsp; +18% GST</i></p>
+          </div>
+        </div>
+      </a>
+    <% } %>
+  </div>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value;
+  
+      fetch(`/listings/search?query=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+          const listingsContainer = document.getElementById('listingsContainer');
+          listingsContainer.innerHTML = '';
+  
+          data.forEach(listing => {
+            const listingElement = document.createElement('a');
+            listingElement.href = `/listings/${listing._id}`;
+            listingElement.className = 'listing-link';
+            listingElement.innerHTML = `
+              <div class="card col listing-card">
+                <img src="${listing.image.url}" class="card-img-top" alt="listing_image" style="height: 20rem" />
+                <div class="card-img-overlay"></div>
+                <div class="card-body">
+                  <p class="card-text"><b>${listing.title}</b><br>
+                  &#8377; ${listing.price.toLocaleString("en-IN")} /night
+                  <i class="tax-info">&nbsp; &nbsp; +18% GST</i></p>
+                </div>
+              </div>
+            `;
+            listingsContainer.appendChild(listingElement);
+          });
+        });
+    });
+  </script>
